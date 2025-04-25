@@ -11,13 +11,9 @@ function editNav() {
 const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
-const closeBtn = document.querySelectorAll(".close");
 
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
-
-// close modal event
-closeBtn.forEach((btn) => btn.addEventListener("click", closeModal));
 
 // launch modal form
 function launchModal() {
@@ -30,113 +26,152 @@ function closeModal() {
 }
 
 let isValid = true;
-let errorMessage = "";
 
 // validation du Prénom
 function checkFirstName() {
-  const prenom = document.getElementById("prenom").value;
+  const prenom = document.getElementById("prenom").value.trim();
+  const prenomChamp = document.getElementById("prenom");
+  const errorElement =
+    prenomChamp.parentElement.querySelector(".error-message");
   if (prenom.length < 2) {
-    //trouver l'élément d'erreur du champ prénom
-    //afficher le message d'erreur
-    //arrêter la validation
+    errorElement.textContent =
+      "Veuillez entrer 2 caractères ou plus pour le champ du prénom.";
+    errorElement.style.display = "block";
     isValid = false;
-    errorMessage =
-      "Veuillez entrer 2 caractères ou plus pour le champ du prénom.\n";
+  } else {
+    errorElement.textContent = "";
+    errorElement.style.display = "none";
+  }
+}
+
+// validation du Nom
+function checkLastName() {
+  const nom = document.getElementById("nom").value.trim();
+  const nomChamp = document.getElementById("nom");
+  const errorElement = nomChamp.parentElement.querySelector(".error-message");
+  if (nom.length < 2) {
+    errorElement.textContent =
+      "Veuillez entrer 2 caractères ou plus pour le champ du nom.";
+    errorElement.style.display = "block";
+    isValid = false;
+  } else {
+    errorElement.textContent = "";
+    errorElement.style.display = "none";
+  }
+}
+
+// validation de l'Email
+function checkEmail() {
+  const email = document.getElementById("email").value.trim();
+  const emailChamp = document.getElementById("email");
+  const errorElement = emailChamp.parentElement.querySelector(".error-message");
+  const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  if (!emailPattern.test(email)) {
+    errorElement.textContent = "L'adresse email est invalide.";
+    errorElement.style.display = "block";
+    isValid = false;
+  } else {
+    errorElement.textContent = "";
+    errorElement.style.display = "none";
+  }
+}
+
+// validation date de naissance
+function checkBirthdate() {
+  const birthdate = document.getElementById("birthdate").value;
+  const birthdateChamp = document.getElementById("birthdate");
+  const errorElement =
+    birthdateChamp.parentElement.querySelector(".error-message");
+  if (!birthdate) {
+    errorElement.textContent = "Vous devez entrer votre date de naissance.";
+    errorElement.style.display = "block";
+    isValid = false;
+  } else {
+    errorElement.textContent = "";
+    errorElement.style.display = "none";
+  }
+}
+
+// validation du nombre de tournois
+function checkTournoi() {
+  const tournoi = parseInt(document.getElementById("tournoi").value, 10);
+  const tournoiChamp = document.getElementById("tournoi");
+  const errorElement =
+    tournoiChamp.parentElement.querySelector(".error-message");
+  if (isNaN(tournoi) || tournoi < 0) {
+    errorElement.textContent =
+      "Veuillez entrer un nombre valide pour le nombre de tournois.";
+    errorElement.style.display = "block";
+    isValid = false;
+  } else {
+    errorElement.textContent = "";
+    errorElement.style.display = "none";
+  }
+}
+
+// validation du bouton tournoi
+function checkRadioButton() {
+  const radioButtons = document.getElementsByName("location");
+  const errorElement = document
+    .getElementById("location1")
+    .parentElement.querySelector(".error-message");
+  let radioSelected = false;
+
+  for (let i = 0; i < radioButtons.length; i++) {
+    if (radioButtons[i].checked) {
+      radioSelected = true;
+      break;
+    }
+  }
+
+  if (!radioSelected) {
+    errorElement.textContent = "Vous devez choisir une option.";
+    errorElement.style.display = "block";
+    isValid = false;
+  } else {
+    errorElement.textContent = "";
+    errorElement.style.display = "none";
+  }
+}
+
+// validation des conditions générales
+function checkConditions() {
+  const conditionsChecked = document.getElementById("checkbox1").checked;
+  const errorElement = document.querySelector(".error-message");
+
+  if (!conditionsChecked) {
+    errorElement.textContent =
+      "Vous devez vérifier que vous acceptez les termes et conditions.";
+    errorElement.style.display = "block";
+    isValid = false;
+  } else {
+    errorElement.textContent = "";
+    errorElement.style.display = "none";
   }
 }
 
 // validation formulaire
-// document.addEventListener('DOMContentLoaded', function () {
-document
-  .getElementById("formulaire")
-  .addEventListener("submit", function (event) {
-    event.preventDefault();
-    /*
-    let isValid = true;
-    let errorMessage = "";
-*/
-    checkFirstName();
-    /*
-      // validation du Prénom
-      const prenom = document.getElementById('prenom').value;
-      if (prenom.length < 2) {
-          isValid = false;
-          errorMessage += 'Veuillez entrer 2 caractères ou plus pour le champ du prénom.\n';
-      }
-*/
-    // validation du Nom
-    const nom = document.getElementById("nom").value;
-    if (nom.length < 2) {
-      isValid = false;
-      errorMessage +=
-        "Veuillez entrer 2 caractères ou plus pour le champ du nom.\n";
-    }
+function validationFormulaire() {
+  const formulaire = document.getElementById("formulaire");
 
-    // validation de l'Email
-    const email = document.getElementById("email").value;
-    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!emailPattern.test(email)) {
-      isValid = false;
-      errorMessage += "L'adresse email est invalide.\n";
-    }
+  isValid = true;
 
-    // validation date de naissance
-    function validate() {
-      const birthdateInput = document.getElementById("birthdate");
-      const birthdateValue = birthdateInput.value;
+  checkFirstName();
+  checkLastName();
+  checkEmail();
+  checkBirthdate();
+  checkTournoi();
+  checkRadioButton();
+  checkConditions();
 
-      if (!birthdateValue) {
-        alert("Vous devez entrer votre date de naissance.");
-        return false;
-      }
+  return isValid;
+}
 
-      return true;
-    }
-
-    // validation du nombre de tournois
-    const tournoi = parseInt(document.getElementById("tournoi").value, 10);
-    if (isNaN(tournoi) || tournoi < 0) {
-      isValid = false;
-      errorMessage +=
-        "Veuillez entrer un nombre valide pour le nombre de tournois.\n";
-    }
-
-    // validation du bouton tournoi
-    const radioButtons = document.getElementsByName("location");
-    let radioSelected = false;
-    console.log("Nombre de boutons radio : ", radioButtons.length);
-
-    for (let i = 0; i < radioButtons.length; i++) {
-      console.log(
-        "État du bouton radio " +
-          radioButtons[i].id +
-          " : " +
-          radioButtons[i].checked
-      );
-      if (radioButtons[i].checked) {
-        radioSelected = true;
-        break;
-      }
-    }
-
-    if (!radioSelected) {
-      isValid = false;
-      errorMessage += "Vous devez choisir une option.\n";
-    }
-
-    // validation des conditions générales
-    const conditionsChecked = document.getElementById("checkbox1").checked;
-    if (!conditionsChecked) {
-      isValid = false;
-      errorMessage +=
-        "Vous devez vérifier que vous acceptez les termes et conditions.\n";
-    }
-
-    // affichage des messages d'erreur
-    if (isValid) {
-      alert("Formulaire validé !");
-    } else {
-      alert("Erreurs dans le formulaire :\n" + errorMessage);
-    }
-  });
-//});
+formulaire.addEventListener("submit", function (event) {
+  event.preventDefault();
+  if (validationFormulaire()) {
+    alert("Formulaire validé !");
+  } else {
+    alert("Erreurs dans le formulaire");
+  }
+});
