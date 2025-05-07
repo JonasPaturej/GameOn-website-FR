@@ -25,96 +25,98 @@ function closeModal() {
   modalbg.style.display = "none";
 }
 
+// close modal form après submit
+const closeBtn = document.querySelector(".close");
+closeBtn.addEventListener("click", closeModal);
+
 let isValid = true;
+
+// affiche message d'erreur
+function displayError(champ, errorMessage) {
+  const errorElement = champ.parentElement.querySelector(".error-message");
+
+  errorElement.textContent = errorMessage;
+  errorElement.style.display = "block";
+  isValid = false;
+}
+
+// cache message d'erreur
+function hideError(champ) {
+  const errorElement = champ.parentElement.querySelector(".error-message");
+  errorElement.textContent = "";
+  errorElement.style.display = "none";
+}
 
 // validation du Prénom
 function checkFirstName() {
-  const prenom = document.getElementById("prenom").value.trim();
-  const prenomChamp = document.getElementById("prenom");
-  const errorElement =
-    prenomChamp.parentElement.querySelector(".error-message");
-  if (prenom.length < 2) {
-    errorElement.textContent =
-      "Veuillez entrer 2 caractères ou plus pour le champ du prénom.";
-    errorElement.style.display = "block";
-    isValid = false;
+  const champ = document.getElementById("prenom");
+  const champValue = champ.value.trim();
+  if (champValue.length < 2) {
+    displayError(
+      champ,
+      "Veuillez entrer 2 caractères ou plus pour le champ du prénom."
+    );
   } else {
-    errorElement.textContent = "";
-    errorElement.style.display = "none";
+    hideError(champ);
   }
 }
 
 // validation du Nom
 function checkLastName() {
-  const nom = document.getElementById("nom").value.trim();
-  const nomChamp = document.getElementById("nom");
-  const errorElement = nomChamp.parentElement.querySelector(".error-message");
-  if (nom.length < 2) {
-    errorElement.textContent =
-      "Veuillez entrer 2 caractères ou plus pour le champ du nom.";
-    errorElement.style.display = "block";
-    isValid = false;
+  const champ = document.getElementById("nom");
+  const champValue = champ.value.trim();
+  if (champValue.length < 2) {
+    displayError(
+      champ,
+      "Veuillez entrer 2 caractères ou plus pour le champ du nom."
+    );
   } else {
-    errorElement.textContent = "";
-    errorElement.style.display = "none";
+    hideError(champ);
   }
 }
 
 // validation de l'Email
 function checkEmail() {
-  const email = document.getElementById("email").value.trim();
-  const emailChamp = document.getElementById("email");
-  const errorElement = emailChamp.parentElement.querySelector(".error-message");
+  const champ = document.getElementById("email");
+  const champValue = champ.value.trim();
   const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  if (!emailPattern.test(email)) {
-    errorElement.textContent = "L'adresse email est invalide.";
-    errorElement.style.display = "block";
-    isValid = false;
+  if (!emailPattern.test(champValue)) {
+    displayError(champ, "L'adresse email est invalide.");
   } else {
-    errorElement.textContent = "";
-    errorElement.style.display = "none";
+    hideError(champ);
   }
 }
 
-// validation date de naissance
+// validation de la Date de naissance
 function checkBirthdate() {
-  const birthdate = document.getElementById("birthdate").value;
-  const birthdateChamp = document.getElementById("birthdate");
-  const errorElement =
-    birthdateChamp.parentElement.querySelector(".error-message");
-  if (!birthdate) {
-    errorElement.textContent = "Vous devez entrer votre date de naissance.";
-    errorElement.style.display = "block";
-    isValid = false;
+  const champ = document.getElementById("birthdate");
+  const champValue = champ.value.trim();
+  if (champValue === "") {
+    displayError(champ, "Vous devez entrer votre date de naissance.");
   } else {
-    errorElement.textContent = "";
-    errorElement.style.display = "none";
+    hideError(champ);
   }
 }
 
-// validation du nombre de tournois
+// validation du Nombre de tournois
 function checkTournoi() {
-  const tournoi = parseInt(document.getElementById("tournoi").value, 10);
-  const tournoiChamp = document.getElementById("tournoi");
-  const errorElement =
-    tournoiChamp.parentElement.querySelector(".error-message");
+  const champ = document.getElementById("tournoi");
+  const champValue = champ.value.trim();
+  const tournoi = parseInt(champValue, 10);
   if (isNaN(tournoi) || tournoi < 0) {
-    errorElement.textContent =
-      "Veuillez entrer un nombre valide pour le nombre de tournois.";
-    errorElement.style.display = "block";
-    isValid = false;
+    displayError(
+      champ,
+      "Veuillez entrer un nombre valide pour le nombre de tournois."
+    );
   } else {
-    errorElement.textContent = "";
-    errorElement.style.display = "none";
+    hideError(champ);
   }
 }
 
-// validation du bouton tournoi
+// validation du choix du Tournoi (boutons radios)
 function checkRadioButton() {
   const radioButtons = document.getElementsByName("location");
-  const errorElement = document
-    .getElementById("location1")
-    .parentElement.querySelector(".error-message");
+  const champ = document.getElementById("location1"); // un des radios pour trouver où mettre l'erreur
   let radioSelected = false;
 
   for (let i = 0; i < radioButtons.length; i++) {
@@ -125,28 +127,23 @@ function checkRadioButton() {
   }
 
   if (!radioSelected) {
-    errorElement.textContent = "Vous devez choisir une option.";
-    errorElement.style.display = "block";
-    isValid = false;
+    displayError(champ, "Vous devez choisir une option.");
   } else {
-    errorElement.textContent = "";
-    errorElement.style.display = "none";
+    hideError(champ);
   }
 }
 
-// validation des conditions générales
+// validation de l'acceptation des Conditions générales
 function checkConditions() {
-  const conditionsChecked = document.getElementById("checkbox1").checked;
-  const errorElement = document.querySelector(".error-message");
-
+  const champ = document.getElementById("checkbox1");
+  const conditionsChecked = champ.checked;
   if (!conditionsChecked) {
-    errorElement.textContent =
-      "Vous devez vérifier que vous acceptez les termes et conditions.";
-    errorElement.style.display = "block";
-    isValid = false;
+    displayError(
+      champ,
+      "Vous devez vérifier que vous acceptez les termes et conditions."
+    );
   } else {
-    errorElement.textContent = "";
-    errorElement.style.display = "none";
+    hideError(champ);
   }
 }
 
