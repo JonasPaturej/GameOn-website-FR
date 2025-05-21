@@ -29,6 +29,26 @@ function closeModal() {
 const closeBtn = document.querySelector(".close");
 closeBtn.addEventListener("click", closeModal);
 
+// affiche la modal de confirmation
+function afficherModalConfirmation() {
+  // Cacher la modal du formulaire
+  modalbg.style.display = "none";
+
+  // Afficher la modal de confirmation
+  document.getElementById("modalConfirmation").classList.remove("hidden");
+}
+
+// close toutes les modals
+function fermerToutesLesModals() {
+  modalbg.style.display = "none";
+  document.getElementById("modalConfirmation").classList.add("hidden");
+}
+
+// Cibler les deux boutons de fermeture (croix et bouton "Fermer")
+document.querySelectorAll(".close, .close-btn").forEach((btn) => {
+  btn.addEventListener("click", fermerToutesLesModals);
+});
+
 let isValid = true;
 
 // affiche message d'erreur
@@ -149,8 +169,6 @@ function checkConditions() {
 
 // validation formulaire
 function validationFormulaire() {
-  const formulaire = document.getElementById("formulaire");
-
   isValid = true;
 
   checkFirstName();
@@ -164,11 +182,14 @@ function validationFormulaire() {
   return isValid;
 }
 
-formulaire.addEventListener("submit", function (event) {
-  event.preventDefault();
-  if (validationFormulaire()) {
-    alert("Formulaire validé !");
-  } else {
-    alert("Erreurs dans le formulaire");
-  }
+document.addEventListener("DOMContentLoaded", function () {
+  const formulaire = document.getElementById("formulaire");
+
+  formulaire.addEventListener("submit", function (event) {
+    event.preventDefault();
+    if (validationFormulaire()) {
+      afficherModalConfirmation();
+      formulaire.reset();
+    }
+  });
 });
