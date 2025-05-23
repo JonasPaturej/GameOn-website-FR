@@ -67,7 +67,6 @@ img {
   color: #ffffff;
   border-radius: 15px;
 }
-
 .topnav .icon {
   display: none;
 }
@@ -90,8 +89,8 @@ img {
 
   .topnav.responsive .icon {
     position: absolute;
-    right: 0;
-    top: 0;
+    right: 25px;
+    top: 15px;
   }
 
   .topnav.responsive a {
@@ -101,7 +100,7 @@ img {
   }
 }
 
-@media screen and (max-width: 540px) {
+@media screen and (max-width: 768px) {
   .topnav a {
     display: none;
   }
@@ -356,7 +355,7 @@ input[data-error]::after {
 }
 
 .btn-submit,
-.btn-signup {
+.btn-signup-desktop {
   background: #fe142f;
   display: block;
   margin: 0 auto;
@@ -544,13 +543,17 @@ input[data-error]::after {
   padding: 0;
 }
 
-.btn-signup {
+.btn-signup-desktop {
   outline: none;
   text-transform: capitalize;
   font-size: 1.3rem;
   padding: 15px 23px;
   margin: 0;
   margin-top: 59px;
+}
+
+.btn-signup-responsive {
+  display: none;
 }
 
 .hero-img {
@@ -564,6 +567,14 @@ input[data-error]::after {
   padding: 0;
 }
 
+.modal-text {
+  margin-top: 250px;
+}
+
+.close-btn {
+  margin-top: 300px;
+}
+
 .copyrights {
   color: #fe142f;
   padding: 0;
@@ -572,7 +583,7 @@ input[data-error]::after {
   font-weight: bolder;
 }
 
-.hero-section > .btn-signup {
+.hero-section > .btn-signup-desktop {
   display: block;
 }
 
@@ -598,10 +609,6 @@ footer {
     content: unset;
   }
 
-  .hero-content .btn-signup {
-    display: block;
-  }
-
   .hero-headline {
     font-size: 4.5rem;
     white-space: normal;
@@ -617,7 +624,7 @@ footer {
     margin-top: 40px;
   }
 
-  .hero-section > .btn-signup {
+  .hero-section > .btn-signup-desktop {
     display: block;
     margin: 32px auto 10px;
     padding: 12px 35px;
@@ -683,7 +690,7 @@ footer {
     padding: 1rem;
   }
 
-  .hero-content .btn-signup {
+  .hero-content .btn-signup-responsive {
     display: block;
     position: relative;
     top: 450px;
@@ -703,7 +710,11 @@ footer {
     top: -90px;
   }
 
-  .btn-signup {
+  .btn-signup-desktop {
+    display: none;
+  }
+
+  .btn-signup-responsive {
     order: 3;
     display: inline-block;
     margin: 15px auto 0;
@@ -720,6 +731,7 @@ footer {
   .hero-text {
     font-size: 15px;
     margin-top: 25px;
+    margin-bottom: 50px;
   }
 
   .content {
